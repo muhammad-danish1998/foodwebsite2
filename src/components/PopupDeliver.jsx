@@ -352,7 +352,7 @@ export default function PopupDeliver({
                         {t("phone")}
                       </label>
                       <input
-                        type="number"
+                        type="text"
                         id="phone"
                         name="phone"
                         value={state.your_phone}
