@@ -71,7 +71,7 @@ export default function Example() {
       answer3: "Company Blog",
       answer4: "Gift Cards",
       answer5: "Promotions",
-      answer6: "Linkedln",
+      answer6: "Impressum",
     },
     {
       question: "Let Us Help You",
@@ -350,6 +350,9 @@ export default function Example() {
                             </p>
                             <p className="text-base leading-7 text-gray-600">
                               {faq.answer5}
+                            </p>
+                            <p className="text-base leading-7 text-gray-600">
+                              {faq.answer6}
                             </p>
                           </Disclosure.Panel>
                         </>
