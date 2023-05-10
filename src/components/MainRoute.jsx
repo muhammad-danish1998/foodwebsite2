@@ -10,7 +10,7 @@ import Dataprivacy from "./Dataprivacy";
 import Delivery from "./Delivery";
 import EditmyAddress from "./EditmyAddress";
 import ForgetPassword from "./ForgetPassword";
-import Impressum from "./Impressum";
+import Impressum from "./Impressum"
 import Myreview from "./Myreview";
 import Order from "./Order";
 import OrderDetail from "./OrderDetail";
@@ -76,6 +76,10 @@ export const publicRoutes = [
   {
     path: "/",
     element: <App />,
+  },
+  {
+    path: "/impressum",
+    element: <Impressum />,
   },
   {
     path: "/signin",
@@ -172,10 +176,7 @@ export const privateRoutes = [
     path: "/resturantReview",
     element: <ResturantReview />,
   },
-  {
-    path: "/Impressum",
-    element: <Impressum />,
-  },
+ 
   {
     path: "/CarditCard",
     element: <CarditCard />,

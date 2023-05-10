@@ -73,12 +73,7 @@ export default function Example() {
       answer5: "Promotions",
       answer6: "Impressum",
     },
-    {
-      question: "Let Us Help You",
-      answer1: "Account Details",
-      answer2: "Order History",
-      answer3: "Help",
-    },
+ 
     {
       question: "Doing Business",
       answer1: "Become a Partner Restaurant",
@@ -103,7 +98,7 @@ export default function Example() {
       { name: `${t("about")}`, href: "/about" },
       { name: "Linkedln", href: "#" },
       { name: `${t("contact")}`, href: "/contact" },
-      { name: `${t("Impressum")}`, href: "#" },
+      { name: `${t("Delivery location ")}`, href: "#" },
 
     ],
     support: [
@@ -283,13 +278,19 @@ export default function Example() {
                     to={"/terms"}
                     className="text-lg  lg:ml-4 leading-6 text-gray-600 hover:text-gray-900"
                   >
-                    {t("termsofservice")}
+                    {t("terms and Conditions")}
                   </Link>
                   <Link
                     to={"/dataprivacy"}
                     className="text-lg ml-4 leading-6 text-gray-600 hover:text-gray-900"
                   >
-                    {t("privacy")}
+                    {t("Data privacy")}
+                  </Link>
+                  <Link
+                    to={"/impressum"}
+                    className="text-lg ml-4 leading-6 text-gray-600 hover:text-gray-900"
+                  >
+                    {t("impressum")}
                   </Link>
                   {/* <a
                     href={"#"}
@@ -378,7 +379,7 @@ export default function Example() {
             ))}
           </div>
           <p className="mt-10 text-center text-xs leading-5 text-gray-500">
-            &copy; 2023 Your Liefermars , Inc. All rights reserved.
+            &copy; 2023 Liefermars.de All rights reserved
           </p>
         </div>
       </footer>
