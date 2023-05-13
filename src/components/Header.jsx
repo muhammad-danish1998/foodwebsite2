@@ -32,7 +32,7 @@ export const userNavigation = [
   { name: "changepassword", href: "/editpassword" },
 ];
 
-export const GoogleMapApiKey = "AIzaSyCUd-iJZauxKJvZUStz7COP7AyvYNtbzVc";
+export const GoogleMapApiKey = "AIzaSyBwhHw0I3SUNIIMq0HaWkIx8BSbmHjooeA";
 export default function Header() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();

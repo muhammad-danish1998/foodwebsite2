@@ -18,11 +18,12 @@ import { useDispatch, useSelector } from "react-redux";
 import Paypal from "./Paypal";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
-
+import Footer from "./Footer";
 // Stripe
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import StripeNew from "./StripeNew";
+import HeaderNoLoc from "./HeaderNoLoc";
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const loadingDiv = (
@@ -362,7 +363,8 @@ export default function Checkout() {
 
   return (
     <div className="min-h-screen">
-      <HeaderNavbar />
+      {/* <HeaderNavbar /> */}
+      <HeaderNoLoc />
 
       <div className="py-6">
         <div className="mx-auto max-w-8xl sm:px-6 lg:grid lg:max-w-9xl lg:grid-cols-12 lg:gap-8 lg:px-8">
@@ -661,6 +663,7 @@ export default function Checkout() {
           </aside>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

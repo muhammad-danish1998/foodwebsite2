@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-
+import Footer from "./Footer";
 import CartInc from "./CartInc";
 
 import { Link, useNavigate } from "react-router-dom";
@@ -34,6 +34,7 @@ import RestaurantInfoPopup from "./RestaurantInfoPopup";
 import ProductInfo from "./ProductInfo";
 import Preloader from "./Preloader";
 import { get } from "react-scroll/modules/mixins/scroller";
+import HeaderNoLoc from "./HeaderNoLoc";
 
 // import {
 //   getMenuList,
@@ -177,7 +178,8 @@ export default function SingleResOverview() {
   ) : (
     <div className="">
       {/* ------------- navbar here ---------  */}
-      <HeaderNavbar />
+      {/* <HeaderNavbar /> */}
+      <HeaderNoLoc />
       {/* <HeaderNavbarMenu /> */}
       <div className="sticky-thc  ">
         <HeaderTextSlider
@@ -332,7 +334,7 @@ export default function SingleResOverview() {
                                   </div>
                                   {eachMenuCatergory?.menuarr?.map(
                                     (eachMenuItem) => (
-                                      <div className="border-2 p-4  mt-4 w-full cursor-pointer fontfamily">
+                                      <div className="border-2 p-4 lg:mb-6  mt-4 w-full cursor-pointer fontfamily">
                                         <div
                                           onClick={() => {
                                             handleClick(
@@ -588,6 +590,7 @@ export default function SingleResOverview() {
           setOpen={setResPopup}
         />
       </div>
+      <Footer />
     </div>
   );
 }

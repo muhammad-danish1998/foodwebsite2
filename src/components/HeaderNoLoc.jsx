@@ -1,10 +1,14 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import HeaderToggle from "./Header-Toggle";
 import { Link, useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import PlacesAutoComplete2 from "./PlacesAutoComplete2";
 import { useDispatch, useSelector } from "react-redux";
+import { updateSearchValue } from "../redux/store/actions/menuAction";
+import { useTranslation } from "react-i18next";
+import { navbar } from "./HomeNavbar";
 import { userNavigation } from "./Header";
 import axios from "axios";
 
@@ -12,27 +16,60 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export const navbar = {
-  solutions: [
-    { name: "about", href: "/about" },
-    // { name: "Support", href: "#" },
-    // { name: "termsandconditions", href: "/terms" },
-    // { name: "Privacy Policy", href: "/dataprivacy" },
-    // { name: "Colophon", href: "/cookies" },
-  ],
-};
-export default function HomeNavbar() {
-  const { t, i18n } = useTranslation();
-  // const dispatch = useDispatch();
+export default function HeaderNoLoc() {
   const auth_user = useSelector((state) => state?.user?.userProfile);
-  // console.log(auth_user, "auth user");
-  // const navigate = useNavigate();
+  const user = useSelector((state) => state?.user);
+  const user_address = localStorage.getItem("address");
+  // console.log(user, "user");
+  const { t, i18n } = useTranslation();
+
+  // const callFooterAPiLng = async () => {
+  //   await axios
+  //     .get("https://api.liefermars.de/ajax/_api_ajax_footer_menu.php")
+  //     .then((result) => {
+  //       console.log("Footer API RESPONSE", result);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
 
   const changeLanguage = (lng) => {
+    console.log("changeLanguage called");
     localStorage.setItem("language", lng);
     i18n.changeLanguage(lng);
+    // callFooterAPiLng();
     // window.location.reload();
   };
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handlePlaceSelect = (data) => {
+    // console.log("🚀 ~ file: Header.jsx:20 ~ handlePlaceSelect ~ data", data);
+    localStorage.setItem("your_zip", data.zipCode);
+    localStorage.setItem("zipCode", data.zipCode);
+    localStorage.setItem("your_street_name", data.city);
+
+    if (data) {
+      navigate(`/restaurant?city=${data.city}&zip=${data.zipCode}`);
+    } else {
+      navigate(
+        `/restaurant?city=${localStorage.getItem(
+          "your_street_name"
+        )}&zip=${localStorage.getItem("your_zip")}`
+      );
+    }
+    dispatch(updateSearchValue(data.city));
+  };
+
+  const [address, setAddress] = useState(null);
+  const [zipCode, setZipCode] = useState("");
+
+  useEffect(() => {
+    setAddress(localStorage.getItem("your_street_name"));
+    // setZipCode(localStorage.getItem("your_zip"));
+  }, []);
 
   const logoutFun = async () => {
     const sssId = localStorage.getItem("uuid");
@@ -53,16 +90,59 @@ export default function HomeNavbar() {
   };
 
   return (
-    <Disclosure as="nav" className="bg-transparent">
+    <Disclosure as="nav" className="bg-">
       {({ open }) => (
         <>
-          <div className="max-w-7xl px-2 sm:px-4 lg:px-8">
+          <div className="mx-auto max-w-8xl px-2   sm:px-4 border-2 border-gray-400 lg:px-8 ">
             <div className="relative flex h-16 items-center justify-between">
-            <img src="./images/logo.png" className="lg:h-12" />
-              <div className="flex flex-1 justify-center px-2 lg:ml-6 lg:justify-end"></div>
-             
+              <div className="flex items-center px-2 lg:px-0">
+                <div className="flex-shrink-0 flex gap-1">
+                  <Link to={"/"}>
+                    <img
+                      className="block h-5 lg:h-8 w-auto lg:hidden"
+                      src="./images/logo.png"
+                      alt="Your Company"
+                    />
+                  </Link>
+                  <Link
+                    onClick={() => navigate(-1)}
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <img
+                      style={{
+                        height: "70%",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        marginRight: "5px",
+                      }}
+                      className="hidden h-8 w-auto lg:block"
+                      src="./images/backArrow.svg"
+                      alt="Your Company"
+                    />
+                  </Link>
+                  <Link to={"/"}>
+                    <img
+                      className="hidden h-8 w-auto lg:block"
+                      src="./images/logo.png"
+                      alt="Your Company"
+                    />
+                  </Link>
+                </div>
+                <div className=" lg:ml-6 lg:block">
+                  <div className="flex  space-x-4 ">
+                    {/* <HeaderToggle value1= {t("delivery")} value2= {t("pickup")} /> */}
+                    <HeaderToggle value1="delivery" value2="pickup" />
+                  </div>
+                </div>
+              </div>
+            
+
               <div className="flex lg:hidden">
-                
                 {/* Mobile menu button */}
                 <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="sr-only">Open main menu</span>
@@ -73,53 +153,31 @@ export default function HomeNavbar() {
                   )}
                 </Disclosure.Button>
               </div>
-              <div
-                className="hidden lg:ml-4 lg:block "
-                style={{
-                  position: "absolute",
-                  top: "0",
-                  right: "-250px",
-                }}
-              >
+              <div className="hidden lg:ml-4 lg:block">
                 <div className="flex items-center">
+                  {/* Profile dropdown */}
                   {localStorage?.getItem("language") == "en" ? (
                     <img
-                      className="h-10 w-10 rounded-full border-2 border-white "
+                      className="h-11 w-11 rounded-full border-2 border-white"
                       src="./images/uk-circle.png "
                       onClick={() => changeLanguage("de")}
                     />
                   ) : (
                     <img
-                      className="h-11 w-11 rounded-full border-2 border-white  
-                      "
+                      className="h-10 w-10 rounded-full border-2 border-white"
                       src="./images/germany.jpeg"
                       onClick={() => changeLanguage("en")}
                     />
                   )}
-
-                  {/* Profile dropdown */}
                   <Menu as="div" className="relative ml-4 flex-shrink-0">
                     <div>
-                      <Menu.Button className="flex rounded-full border-white border-2 bg-gray-800 text-sm text-white focus:outline-none  focus:ring-offset-2 focus:ring-offset-gray-800">
+                      <Menu.Button className="flex rounded-full bg-gray-800 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                         <span className="sr-only">Open user menu</span>
                         {/* <img
-                          className="h-10 w-10 rounded-full "
+                          className="h-9 w-9 rounded-full"
                           src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                           alt=""
                         /> */}
-                        {/* <span className="inline-block h-10 w-10 overflow-hidden rounded-full bg-gray-100">
-                          {auth_user ? (
-                            <img src={auth_user?.profile_img} />
-                          ) : (
-                            <svg
-                              className="h-full w-full text-gray-300"
-                              fill="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                            </svg>
-                          )}
-                        </span> */}
                         {auth_user?.user_id ? (
                           <div class="relative">
                             <>
@@ -128,17 +186,19 @@ export default function HomeNavbar() {
                                 src={auth_user?.profile_img}
                                 alt=""
                               />
-                              <span class="top-0 left-7 absolute  w-3.5 h-3.5  rounded-full"></span>
+                              <span class="top-0 left-7 absolute  w-3.5 h-3.5   dark:border-black-800 rounded-full"></span>
                             </>
                           </div>
                         ) : (
                           <>
-                            <img
-                              class="w-10 h-10 rounded-full"
-                              src={`./images/user.svg`}
-                              alt=""
-                            />
-                            <span class="top-0 left-7 absolute  w-3.5 h-3.5  rounded-full"></span>
+                            <>
+                              <img
+                                class="w-10 h-10 rounded-full"
+                                src={`./images/user.svg`}
+                                alt=""
+                              />
+                              <span class="top-0 left-7 absolute  w-3.5 h-3.5   dark:border-black-800 rounded-full"></span>
+                            </>
                           </>
                         )}
                       </Menu.Button>
@@ -153,19 +213,24 @@ export default function HomeNavbar() {
                       leaveTo="transform opacity-0 scale-95"
                     >
                       <Menu.Items className="px-2 absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                        <div className="h1 p-2 fontfamily ">
-                          Welcome {auth_user?.firstname} {auth_user?.lastname}
+                        <div
+                          className="h1 p-2 fontfamily"
+                          style={{
+                            fontFamily: "Inter",
+                          }}
+                        >
+                          {t("welcome")} {auth_user?.firstname}{" "}
+                          {auth_user?.lastname}
                         </div>
                         {!auth_user?.user_id ? (
                           <>
                             <Menu.Item>
                               {({ active }) => (
                                 <Link
-                                  style={{ fontFamily: "Inter" }}
                                   to="/signin"
                                   className={classNames(
-                                    active ? "bg-gray-100" : "",
-                                    "block px-4 py-2 text-sm text-gray-700"
+                                    active ? "bg-black-100" : "",
+                                    "block px-4 py-2 text-sm text-black-700"
                                   )}
                                 >
                                   {t("signin")}
@@ -175,11 +240,10 @@ export default function HomeNavbar() {
                             <Menu.Item>
                               {({ active }) => (
                                 <Link
-                                  style={{ fontFamily: "Inter" }}
                                   to="/signup"
                                   className={classNames(
-                                    active ? "bg-gray-100" : "",
-                                    "block px-4 py-2 text-sm text-gray-700 border-b-2"
+                                    active ? "bg-black-100" : "",
+                                    "block px-4 py-2 text-sm text-black-700 border-b-2"
                                   )}
                                 >
                                   {t("signup")}
@@ -193,11 +257,10 @@ export default function HomeNavbar() {
                               <Menu.Item>
                                 {({ active }) => (
                                   <Link
-                                    style={{ fontFamily: "Inter" }}
                                     to={obj.href}
                                     className={classNames(
-                                      active ? "bg-gray-100" : "",
-                                      "block px-4 py-2 text-sm text-gray-700"
+                                      active ? "bg-black-100" : "",
+                                      "block px-4 py-2 text-sm text-black-700"
                                     )}
                                   >
                                     {t(`${obj?.name}`)}
@@ -214,13 +277,12 @@ export default function HomeNavbar() {
                               {({ active }) => (
                                 <Link
                                   to={item.href}
-                                  style={{ fontFamily: "Inter" }}
                                   className={classNames(
-                                    active ? "bg-black-100" : "",
-                                    "block px-4 py-2 text-sm text-black-700"
+                                    active ? "bg-gray-100" : "",
+                                    "block px-4 py-2 text-sm text-gray-700"
                                   )}
                                 >
-                                  {t(`${item?.name}`)}
+                                  {t("about")}
                                 </Link>
                               )}
                             </Menu.Item>
@@ -236,7 +298,7 @@ export default function HomeNavbar() {
                                     )}
                                     onClick={() => logoutFun()}
                                   >
-                                    {t(`Logout`)}
+                                    {t(`logout`)}
                                   </button>
                                 )}
                               </Menu.Item>
@@ -279,35 +341,47 @@ export default function HomeNavbar() {
               </div>
             </div>
           </div>
-
-          <Disclosure.Panel className="lg:hidden bg-white m-1">
-            <div className="space-y-1 px-2 pt-2 pb-3">
+          {/* -------------------- second search bar ----------------  */}
+      
+          <Disclosure.Panel className="lg:hidden drop-nav bg-gray-400 border-2 mb-2  ">
+            <div className="space-y-1 px-2 pt-2 pb-3  ">
               {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
-
-              <Disclosure.Button
-                as="a"
-                href="#"
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-gray-700 hover:text-white"
-              >
-                {t("login")}
-              </Disclosure.Button>
-              <Disclosure.Button
-                as="a"
-                href="#"
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-gray-700 hover:text-white"
-              >
-                {t("register")}
-              </Disclosure.Button>
-              <Disclosure.Button
-                as="a"
-                href="#"
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:bg-gray-700 hover:text-white"
-              >
-                <img
-                  className="h-10 w-10 rounded-full border-2 border-white "
-                  src="./images/uk-circle.png "
-                />
-              </Disclosure.Button>
+              <Link to="/">
+                <Disclosure.Button
+                  as="a"
+                  // href="/"
+                  className=" block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white"
+                >
+                  Home
+                </Disclosure.Button>
+              </Link>
+              <Link to="/signin">
+                <Disclosure.Button
+                  as="a"
+                  href="#"
+                  className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                >
+                  Sign in
+                </Disclosure.Button>
+              </Link>
+              <Link to="/signup">
+                <Disclosure.Button
+                  as="a"
+                  href="#"
+                  className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                >
+                  Sign up
+                </Disclosure.Button>
+              </Link>
+              <Link to="/about">
+                <Disclosure.Button
+                  as="a"
+                  href="#"
+                  className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                >
+                  About
+                </Disclosure.Button>
+              </Link>
             </div>
           </Disclosure.Panel>
         </>

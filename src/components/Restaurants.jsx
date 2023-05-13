@@ -13,7 +13,7 @@ import axios from "axios";
 import ModalRating from "./ModalRating";
 import { useDispatch, useSelector } from "react-redux";
 import HeaderNavbar from "./HeaderNavbar";
-
+import Footer from "./Footer";
 const user = {
   name: "Tom Cook",
   email: "tom@Restaurants.com",
@@ -302,6 +302,8 @@ export default function Restaurants() {
           </main>
         </div>
       </div>
+      <Footer />
+
     </>
   );
 }

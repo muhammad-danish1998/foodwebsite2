@@ -69,6 +69,7 @@ const Order = () => {
   return (
     <div>
       <HeaderNavbar />
+
       <div className="bg-white flex-col m-8 justify-center max-w-8xl   sm:px-6 lg:px-1">
         <h1 className="text-4xl font-bold mb-8 fontfamily">{t("myorder")} </h1>
         <div className="grid grid-cols-1 gap-0 sm:grid-cols-1">

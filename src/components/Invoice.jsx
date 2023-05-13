@@ -11,6 +11,7 @@ import { CheckoutOrder } from "../redux/store/actions/menuAction";
 //   retrievePaymentIntent,
 // } from "@stripe/react-stripe-js";
 import Stripe from "stripe";
+import HeaderNoLoc from "./HeaderNoLoc";
 
 const stripePromise = loadStripe(
   "pk_test_51MuMjcHK08LMGtNrCtgv5nv9vByD16ZFwLPpOsdfURV5CA3Kmc8UqIyB8XyNyCjfSaEp5Vm5BPyssa0KA1EuKgVS00mfcaiFih"
@@ -86,7 +87,8 @@ const Invoice = () => {
 
   return (
     <>
-      <HeaderNavbar />
+      {/* <HeaderNavbar /> */}
+      <HeaderNoLoc />
       <div className="flex flex-col justify-center h-96 items-center">
         <h1 className="text-4xl font-bold">You Are Awesome</h1>
         <p className="">Thank you so much For Deine Brstellung.</p>
