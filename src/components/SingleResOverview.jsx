@@ -35,6 +35,7 @@ import ProductInfo from "./ProductInfo";
 import Preloader from "./Preloader";
 import { get } from "react-scroll/modules/mixins/scroller";
 import HeaderNoLoc from "./HeaderNoLoc";
+import Footer2 from "./Footer2";
 
 // import {
 //   getMenuList,
@@ -211,7 +212,7 @@ export default function SingleResOverview() {
                             <div className=" justify-center lg:ml-2 items-center">
                               <div className="flex flex-row gap-3">
                                 <h1 className="title-font lg:text-2xl text-xl p-1 lg:p-0 font-medium text-gray-900 mb-3">
-                                  <span className="text-lg font-bold mr-2 border-2 bg-gray-300 p-1 cursor-pointer">555</span>{name}{" "}
+                                  {name}{" "}
                                 </h1>
 
                                 {/* <Tooltip> */}
@@ -226,6 +227,8 @@ export default function SingleResOverview() {
                                 {/* </Tooltip> */}
                               </div>
                               {/* -------- review ------------  */}
+                              <div className="flex">
+                              <span className="text-lg font-bold mr-2 border-2 bg-gray-300 p-1 cursor-pointer">555</span>
                               <span
                                 className="flex items-center p-1 lg:p-0 cursor-pointer"
                                 onClick={handleReview}
@@ -291,6 +294,7 @@ export default function SingleResOverview() {
                                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
                                 </svg>
                               </span>
+                              </div>
                               <p className="leading-relaxed mb-3">
                                 {/* <HeaderToggle
                                 value1={"Delivery"}
@@ -590,7 +594,7 @@ export default function SingleResOverview() {
           setOpen={setResPopup}
         />
       </div>
-      <Footer />
+      <Footer2 />
     </div>
   );
 }

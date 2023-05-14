@@ -205,13 +205,16 @@ export default function Header() {
               </h1>
 
               <div className="mt-8  sm:mx-auto sm:max-w-lg sm:text-center lg:mx-0 lg:text-left">
+              <p>Please write your address and Select from suggestions</p>
                 <form
                   onSubmit={(e) => e.preventDefault()}
                   action="#"
                   method="POST"
                   className="mt-3 sm:flex "
                 >
+                
                   <div className="w-[100%] flex flex-row justify-between rounded-2xl shadow-sm p-2  items-center  bg-white border-orange-500 ">
+                    
                     <label htmlFor="email" className="sr-only">
                       Email
                     </label>
@@ -249,7 +252,7 @@ export default function Header() {
                         onPlaceSelect={handlePlaceSelect}
                       />
                     </div>
-                    <svg
+                    {/* <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -269,7 +272,7 @@ export default function Header() {
                         strokeLinejoin="round"
                         d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
                       />
-                    </svg>
+                    </svg> */}
                   </div>
                 </form>
               </div>

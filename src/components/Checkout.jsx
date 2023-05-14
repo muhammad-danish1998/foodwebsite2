@@ -24,6 +24,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import StripeNew from "./StripeNew";
 import HeaderNoLoc from "./HeaderNoLoc";
+import Footer2 from "./Footer2";
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const loadingDiv = (
@@ -663,7 +664,7 @@ export default function Checkout() {
           </aside>
         </div>
       </div>
-      <Footer />
+      <Footer2 />
     </div>
   );
 }
