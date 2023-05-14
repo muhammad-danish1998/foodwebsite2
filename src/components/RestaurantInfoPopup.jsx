@@ -56,7 +56,7 @@ export default function RestaurantInfoPopup({ open, setOpen, detail }) {
                       fontWeight: "bold",
                     }}
                   >
-                    <i class="fa fa-duotone fa-circle-xmark mr-4"></i>
+                    <i onClick={()=>setOpen(false)} class="fa fa-duotone  fa-circle-xmark cursor-pointer mr-4"></i>
                     Restaurant Info
                   </h1>
                 </div>
@@ -177,7 +177,7 @@ export default function RestaurantInfoPopup({ open, setOpen, detail }) {
                 ))}
 
                 <div className="flex justify-end mt-2 p-2">
-                  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  <button onClick={()=>setOpen(false)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     Close
                   </button>
                 </div>

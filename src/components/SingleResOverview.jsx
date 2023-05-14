@@ -211,7 +211,7 @@ export default function SingleResOverview() {
                             <div className=" justify-center lg:ml-2 items-center">
                               <div className="flex flex-row gap-3">
                                 <h1 className="title-font lg:text-2xl text-xl p-1 lg:p-0 font-medium text-gray-900 mb-3">
-                                  {name}{" "}
+                                  <span className="text-lg font-bold mr-2 border-2 bg-gray-300 p-1 cursor-pointer">555</span>{name}{" "}
                                 </h1>
 
                                 {/* <Tooltip> */}
